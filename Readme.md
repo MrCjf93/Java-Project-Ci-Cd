@@ -91,7 +91,7 @@ The interface is used so TestJob and DeployJob can create their own reports usin
 
 Menu
 
-The program has a menu with different options that work with all of the pipeline jobs.
+The program is planned to have a menu with different options that work with all of the pipeline jobs.
 
 Add a Pipeline Work Unit
 user can create a BuildJob, TestJob, or DeployJob and add it to the collection.
