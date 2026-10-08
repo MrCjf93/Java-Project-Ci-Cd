@@ -52,4 +52,16 @@ private static void printMenuInterface() {
 
 
 }
-private static int fethSafeIntegerInput() {}
+private static int fethSafeIntegerInput() {
+    while (true) {
+        try {
+            String consoleRawInput = scanner.nextLine();
+            if (consoleRawInput.trim().isEmpty()) continue;
+            return Integer.parseInt(consoleRawInput);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid format type. Numerical entries only. Please Re-enter");
+            
+        }
+    }
+}
