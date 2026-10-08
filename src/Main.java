@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,11 +21,11 @@ public class Main {
 
             switch (selectedOption) {
                 case 1: handleJobCreationFlow(); break;
-                case 2: handleJobRemovalFlow(); Break;
+                case 2: handleJobRemovalFlow(); break;
                 case 3: handleDurationSearchQuery(); break;
                 case 4: executePolymorphicComplianceAudits();  break;
-                case 5; displayAnalyticalAggregates(); break;
-            } case 6:
+                case 5: displayAnalyticalAggregates(); break;
+                case 6:
                 System.out.println("Shutting down core processes, Session closed cleanly");
                 systemRunning = false;
                 break;
@@ -80,4 +81,26 @@ private static void handleJobCreationFlow() {
     String name = scanner.nextLine();
     System.out.println("Set Targeted Runtime Expectation (Seconds): ");
     int duration = fethSafeIntegerInput();
-}
+
+    try {
+        if (choice == 1) {
+            System.out.println("Specify Target Compiler: ");
+        String comp = scanner.nextLine();
+        BuildJob b = new BuildJob(name, duration, comp);
+        b.executeWork(); jobRegistry.add(b);
+        }else if (choice == 2) {
+            System.out.println("Specify Test Count: ");
+            int count = fethSafeIntegerInput();
+            TestJob t = new TestJob(name, duration, count);
+            t.executeWork(); jobRegistry.add(t);
+        }else if (choice == 3) {
+            System.out.println("Specify Target Environment: ");
+            String env = scanner.nextLine();
+            DeployJob d = new DeployJob(name, duration, env);
+            d.executeWork(); jobRegistry.add(d);
+        }
+    }catch (IllegalArgumentException e){
+        System.out.println("Operations Aborted: " + e.getMessage());
+    }
+    }
+    }
