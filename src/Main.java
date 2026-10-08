@@ -42,12 +42,14 @@ private static void printMenuInterface() {
     System.out.println("\n----------------------------------------------");
     System.out.println("============= Menu Entries =============");
     System.out.println("1) Instantiation: Append New Task Unit to Registry");
-    System.out.println("2) Add New Task Unit to Registry");
-    System.out.println("3) Remove New Task Unit from Registry");
-    System.out.println("4) Display Analytal Aggregates");
-    System.out.println("5) Display Analytal Aggregates");
-    System.out.println("6) Exit");
+    System.out.println("2) Revocation: Remove Specific Task Unit via Id Name");
+    System.out.println("3) Query Engine: Filter Task Assets by Runtime Duration");
+    System.out.println("4) Compliance Audit: Run Structural Reportable Checks");
+    System.out.println("5) Telemetry Analytics: Viwq Cumulative Core Metrics");
+    System.out.println("6) Close Application Runtime Engine");
+    System.out.println("Action Target Index:");
 
 
 
 }
+private static int fethSafeIntegerInput() {}
