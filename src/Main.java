@@ -123,3 +123,13 @@ private static void handleJobCreationFlow() {
         if (j instanceof Reportable) ((Reportable) j).generateReport();
     }
     }
+
+    private static void displayAnalyticalAggregates() {
+    if (jobRegistry.isEmpty()) return;
+    int total = 0;
+    for (PipelineWork j : jobRegistry) total += j.getDurationSeconds();
+        System.out.println("Total Tracked Steps:" + jobRegistry.size());
+        System.out.println("Cumulative Pipeline Core Runtime: " + total + "s");
+        System.out.println("Statistical Average Node Process Duration: %.2f seconds.%n", (double)total/
+                jobRegistry.size());
+    }
