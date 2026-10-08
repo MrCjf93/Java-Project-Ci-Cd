@@ -1,4 +1,4 @@
-|
+
 
 // Subclass that handles the Deployment also extends pipeline and implements reportable
 public class DeployJob extends PipelineWork implements Reportable {
@@ -13,7 +13,7 @@ public class DeployJob extends PipelineWork implements Reportable {
         super(jobName, durationSeconds);
 
         //Error handling that doesn't allow the target environment string cant be null or whitespace
-        if (targetEnviroment == null) || targetEnviroment.trim().isEmpty()){
+        if (targetEnviroment == null  || targetEnviroment.trim().isEmpty()){
     throw new IllegalArgumentException("Deployment target requires valid infrastructure tags.");
 
         }
@@ -35,7 +35,7 @@ public class DeployJob extends PipelineWork implements Reportable {
     @Override
     public String getDetails(){
         return "[Deployment Task] Identifier: " + getJobName() +
-                " || Topology Profile:  " + targetEnviroment; + " || Target duration: "
+                " || Topology Profile:  " + targetEnviroment + " || Target duration: "
                 + getDurationSeconds() + "s || Status : " + getStatus();
 
     }
