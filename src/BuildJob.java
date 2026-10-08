@@ -9,7 +9,7 @@ public class BuildJob extends PipelineWork{
     // Constructor that initializes the BuildJob
     public BuildJob(String jobName, int durationSeconds, String compilerVersion) {
 
-        // Passes pipeline data to the superclass PipelineWork
+        // calls the superclass PipelineWork constructor
         super(jobName, durationSeconds);
 
         // Validation that prevents the program from creating a BuildJob without a valid compilerVersion

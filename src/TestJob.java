@@ -9,7 +9,7 @@ public class TestJob extends PipelineWork implements Reportable {
     // Constructor to initialize job name and duration and test count
     public TestJob(Sting jobName, int durationSeconds int testCount) {
 
-       //Sends data to pipelineWork constructor
+       //calls the superclass pipelineWork constructor
         super(jobName, durationSeconds, int testCount);
 
         //Validation rule / error handling: Doesnt allow testCount to be 0 or below
