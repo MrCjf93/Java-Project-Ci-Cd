@@ -104,3 +104,22 @@ private static void handleJobCreationFlow() {
     }
     }
     }
+    private static void handleJobRemovalFlow() {
+        System.out.println("Input Exact Identifier Name to Drop: ");
+        String target = scanner.nextLine();
+        boolean removed = jobRegistry.removeIf(j -> j.getJobname().equalsIgnoreCase(target));
+        if (removed) System.out.println("Target asset match resolved and removed.");
+        else System.out.println("No matching pipeline task found. ");
+    }
+    private static void handleDurationSearchQuery() {
+        System.out.println("Define Minimum Runtime Target Threshold (seconds): ");
+        int limit = fetchSafeIntegerInput();
+        for (PipelineWork j : jobRegistry) {
+            if (j.getDurationSeconds() >= limit) System.out.println(" -> " + j.getDetails());
+        }
+    }
+    private static void executePolymorphicComplianceAudits() {
+    for (PipelineWork j : jobRegistry){
+        if (j instanceof Reportable) ((Reportable) j).generateReport();
+    }
+    }
