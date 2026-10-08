@@ -61,7 +61,23 @@ private static int fethSafeIntegerInput() {
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid format type. Numerical entries only. Please Re-enter");
-            
+
         }
     }
+}
+
+private static void seedInitialWorkflowHistory() {
+    jobRegistry.add(new BuildJob("Primary Core Build", 45,"Java JDK 20"));
+    jobRegistry.add(new TestJob("Regression Suite Delta", 120, 350));
+    jobRegistry.add(new DeployJob("Production Cluster Alpha",90,"AWS Staging Pool"));
+
+}
+
+private static void handleJobCreationFlow() {
+    System.out.println("\nSelect Type: 1-Build | 2-Test | 3-Deploy");
+    int choice = fethSafeIntegerInput();
+    System.out.println("Assign Unique Task Name: ");
+    String name = scanner.nextLine();
+    System.out.println("Set Targeted Runtime Expectation (Seconds): ");
+    int duration = fethSafeIntegerInput();
 }
