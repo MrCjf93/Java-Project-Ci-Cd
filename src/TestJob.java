@@ -1,5 +1,6 @@
 
-
+// Subclass that handles the test part before deployment
+// extends pipelineWork but also implements reportable interface to be able to generate a report.
 public class TestJob extends PipelineWork implements Reportable {
 
     // Stores the number of tests this job will run
