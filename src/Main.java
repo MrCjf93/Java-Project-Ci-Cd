@@ -12,7 +12,7 @@ public class Main {
 
         seedInitialWorkflowHistory();
         boolean systemRunning = true;
-        System.out.println("=== System Initialized: Deployement Automation Management Enviroment ===");
+        System.out.println("=== System Initialized: Deployment Automation Management Environment ===");
 
         while (systemRunning) {
             printMenuInterface();
@@ -77,7 +77,7 @@ public class Main {
 
     private static void seedInitialWorkflowHistory() {
         jobRegistry.add(new BuildJob("Primary Core Build", 45, "Java JDK 20"));
-        jobRegistry.add(new TestJob("Regression Suite Delta", 120, 350));
+        jobRegistry.add(new TestJob("Regression Suite Delta", 120,333));
         jobRegistry.add(new DeployJob("Production Cluster Alpha", 90, "AWS Staging Pool"));
 
     }
@@ -118,7 +118,7 @@ public class Main {
     private static void handleJobRemovalFlow() {
         System.out.println("Input Exact Identifier Name to Drop: ");
         String target = scanner.nextLine();
-        boolean removed = jobRegistry.removeIf(j -> j.getJobname().equalsIgnoreCase(target));
+        boolean removed = jobRegistry.removeIf(j -> j.getJobName().equalsIgnoreCase(target));
         if (removed) System.out.println("Target asset match resolved and removed.");
         else System.out.println("No matching pipeline task found. ");
     }

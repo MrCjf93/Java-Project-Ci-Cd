@@ -4,19 +4,19 @@
 public class TestJob extends PipelineWork implements Reportable {
 
     // Stores the number of tests this job will run
-    private int TestCount;
+    private int testCount;
 
     // Constructor to initialize job name and duration and test count
-    public TestJob(Sting jobName, int durationSeconds int testCount) {
+    public TestJob(String jobName, int durationSeconds, int testCount) {
 
        //calls the superclass pipelineWork constructor
-        super(jobName, durationSeconds, int testCount);
+        super(jobName, durationSeconds);
 
         //Validation rule / error handling: Doesnt allow testCount to be 0 or below
         if (testCount < 0) {
             throw new IllegalArgumentException("Automated check count cannot be below zero");
 
-        } this.TestCount = testCount;
+        } this.testCount = testCount;
 
     }
     // Overrides executeWork method from pipelineWork
