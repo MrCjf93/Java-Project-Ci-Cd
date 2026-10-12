@@ -54,7 +54,7 @@ public class Main {
         System.out.println("2) Revocation: Remove Specific Task Unit via Id Name");
         System.out.println("3) Query Engine: Filter Task Assets by Runtime Duration");
         System.out.println("4) Compliance Audit: Run Structural Reportable Checks");
-        System.out.println("5) Telemetry Analytics: Viwq Cumulative Core Metrics");
+        System.out.println("5) Telemetry Analytics: View Cumulative Core Metrics");
         System.out.println("6) Close Application Runtime Engine");
         System.out.println("Action Target Index:");
 
