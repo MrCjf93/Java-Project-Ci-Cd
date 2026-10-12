@@ -91,7 +91,7 @@ The interface is used so TestJob and DeployJob can create their own reports usin
 
 Menu
 
-The program is planned to have a menu with different options that work with all of the pipeline jobs.
+The program has menu with different options that work with all of the pipeline jobs.
 
 Add a Pipeline Work Unit
 user can create a BuildJob, TestJob, or DeployJob and add it to the collection.
@@ -117,6 +117,7 @@ If the user tries to create a job with an empty name or a duration of 0 or less,
 
 If the user tries to execute or evaluate a job that has failed or contains corrupted info the program should throw the custom checked exception JobFailedException.
 
+Bonus: Added a translation option so that the user can toggle between Dev terms and simple english
 Motivation
 
 Nothing for now. Will be added during this or next week.
