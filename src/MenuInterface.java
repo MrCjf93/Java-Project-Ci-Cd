@@ -17,7 +17,7 @@ public class MenuInterface {
         System.out.println("\n----------------------------------------------");
         System.out.println("============= Menu Entries =============");
 
-        // Checks the condition to print out normal non-dev english terms
+        // Checks the condition to print out normal non-dev English terms
         if (useSimpleEnglish) {
             System.out.println("1) Add: Create and add a new task to the list");
             System.out.println("2) Delete: Remove a task by typing its name");

@@ -12,7 +12,7 @@ public class TestJob extends PipelineWork implements Reportable {
        //calls the superclass pipelineWork constructor
         super(jobName, durationSeconds);
 
-        //Validation rule / error handling: Doesnt allow testCount to be 0 or below
+        //Validation rule / error handling: Doesn't allow testCount to be 0 or below
         if (testCount < 0) {
             throw new IllegalArgumentException("Automated check count cannot be below zero");
 

@@ -28,7 +28,7 @@ public abstract class PipelineWork {
     }
 
     //Abstract methods that have to be implemented in the subclasses
-    //Reason is that every job does a different thing and they need a way to print their own specs and info regarding details and stats
+    //Reason is that every job does a different thing so they need a way to print their own specs and info regarding details and stats
 
     public abstract void executeWork();
     public abstract String getDetails();
