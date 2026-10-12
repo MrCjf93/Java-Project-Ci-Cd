@@ -124,7 +124,7 @@ public class Main {
         else System.out.println("No matching pipeline task found. ");
     }
 
-    // Evaluates task data and displays custom strings polymorphically via körtidspolymorfism
+    // Evaluates task data and displays custom strings polymorphically via runtime polymorfism
     private static void handleDurationSearchQuery() {
         System.out.println("Define Minimum Runtime Target Threshold (seconds): ");
         int limit = fethSafeIntegerInput();
