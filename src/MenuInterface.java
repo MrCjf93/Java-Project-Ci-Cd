@@ -1,8 +1,9 @@
-public class Menuinterface {
+
+public class MenuInterface {
 
     private boolean useSimpleEnglish;
 
-    public Menuinterface() {
+    public MenuInterface() {
         this.useSimpleEnglish = false; // Starts at false so that the Dev terminology is the default
     }
     //Toggle method to switch the language state back and forth
@@ -40,5 +41,5 @@ public class Menuinterface {
         System.out.println("Action Target Index:");
     }
 }
-    }
-}
+
+

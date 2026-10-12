@@ -2,22 +2,34 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Core Runtime Engine that coordinates program workflows and processes user choices.
+//=================================================================================
 public class Main {
 
-
+    // Shared internal list infrastructure holding the polymorphic PipelineWork items
     private static final ArrayList<PipelineWork> jobRegistry = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
 
+    // Instantiates the separate standalone menu service component helper
+    private static final MenuInterface menuService = new MenuInterface();
+
     public static void main(String[] args) {
 
+        // Seeds initial mock history records for demonstration targets
         seedInitialWorkflowHistory();
         boolean systemRunning = true;
         System.out.println("=== System Initialized: Deployment Automation Management Environment ===");
 
+        // Continuous application processing execution loop
         while (systemRunning) {
-            printMenuInterface();
+            // Uses the instantiated separate utility helper class to present option strings
+            menuService.printMenu();
             int selectedOption = fethSafeIntegerInput();
 
+            // Evaluates and resolves target operations based on inputs
             switch (selectedOption) {
                 case 1:
                     handleJobCreationFlow();
@@ -35,53 +47,41 @@ public class Main {
                     displayAnalyticalAggregates();
                     break;
                 case 6:
+                    // Triggers the toggle language state method in the helper object
+                    menuService.toggleLanguage();
+                    break;
+                case 7:
+                    // Safely alters the loop control flag to shut down core engine execution
                     System.out.println("Shutting down core processes, Session closed cleanly");
                     systemRunning = false;
                     break;
                 default:
                     System.out.println("Error Alert: Input option does not correspond to active menu entries");
-
             }
-
-
         }
     }
 
-    private static void printMenuInterface() {
-        System.out.println("\n----------------------------------------------");
-        System.out.println("============= Menu Entries =============");
-        System.out.println("1) Instantiation: Append New Task Unit to Registry");
-        System.out.println("2) Revocation: Remove Specific Task Unit via Id Name");
-        System.out.println("3) Query Engine: Filter Task Assets by Runtime Duration");
-        System.out.println("4) Compliance Audit: Run Structural Reportable Checks");
-        System.out.println("5) Telemetry Analytics: View Cumulative Core Metrics");
-        System.out.println("6) Close Application Runtime Engine");
-        System.out.println("Action Target Index:");
-
-
-    }
-
+    // Input collection helper with error trapping to catch format mismatches
     private static int fethSafeIntegerInput() {
         while (true) {
             try {
                 String consoleRawInput = scanner.nextLine();
                 if (consoleRawInput.trim().isEmpty()) continue;
                 return Integer.parseInt(consoleRawInput);
-
             } catch (NumberFormatException e) {
                 System.out.println("Invalid format type. Numerical entries only. Please Re-enter");
-
             }
         }
     }
 
+    // Seeds initial baseline sample tasks polymorphically into the generic registry collection
     private static void seedInitialWorkflowHistory() {
         jobRegistry.add(new BuildJob("Primary Core Build", 45, "Java JDK 20"));
-        jobRegistry.add(new TestJob("Regression Suite Delta", 120,333));
+        jobRegistry.add(new TestJob("Regression Suite Delta", 120, 333));
         jobRegistry.add(new DeployJob("Production Cluster Alpha", 90, "AWS Staging Pool"));
-
     }
 
+    // Workflow path that handles parsing user definitions and initializing sub-tasks
     private static void handleJobCreationFlow() {
         System.out.println("\nSelect Type: 1-Build | 2-Test | 3-Deploy");
         int choice = fethSafeIntegerInput();
@@ -115,6 +115,7 @@ public class Main {
         }
     }
 
+    // Drops specific records matching identifiers from target structures
     private static void handleJobRemovalFlow() {
         System.out.println("Input Exact Identifier Name to Drop: ");
         String target = scanner.nextLine();
@@ -123,6 +124,7 @@ public class Main {
         else System.out.println("No matching pipeline task found. ");
     }
 
+    // Evaluates task data and displays custom strings polymorphically via körtidspolymorfism
     private static void handleDurationSearchQuery() {
         System.out.println("Define Minimum Runtime Target Threshold (seconds): ");
         int limit = fethSafeIntegerInput();
@@ -131,19 +133,21 @@ public class Main {
         }
     }
 
+    // Scans tasks polymorphically using interface evaluation structures
     private static void executePolymorphicComplianceAudits() {
         for (PipelineWork j : jobRegistry) {
+            // Evaluates if the current item is an instance conforming to the Reportable blueprint
             if (j instanceof Reportable) ((Reportable) j).generateReport();
         }
     }
 
+    // Evaluates numerical items and prints mathematical process aggregates
     private static void displayAnalyticalAggregates() {
         if (jobRegistry.isEmpty()) return;
         int total = 0;
         for (PipelineWork j : jobRegistry) total += j.getDurationSeconds();
         System.out.println("Total Tracked Steps:" + jobRegistry.size());
         System.out.println("Cumulative Pipeline Core Runtime: " + total + "s");
-        System.out.printf("Statistical Average Node Process Duration: %.2f seconds.%n", (double) total /
-                jobRegistry.size());
+        System.out.printf("Statistical Average Node Process Duration: %.2f seconds.%n", (double) total / jobRegistry.size());
     }
 }
