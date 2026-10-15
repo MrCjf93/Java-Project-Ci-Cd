@@ -1,7 +1,7 @@
 
 
 public class DeployJob extends PipelineWork implements Reportable {
-    private String targetEnvironment; // Fixed original typo here too!
+    private String targetEnvironment; 
 
     public DeployJob(String jobName, int durationSeconds, String targetEnvironment) {
         super(jobName, durationSeconds);
