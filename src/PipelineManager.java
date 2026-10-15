@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class PipelineManager {
 
     private final ArrayList<PipelineWork> jobRegistry = new ArrayList<>();
-    private final ArrayList<String> executionHistoryLog = new ArrayList<>(); // NEW: History logger
+    private final ArrayList<String> executionHistoryLog = new ArrayList<>(); //  History logger
     private final Scanner scanner = new Scanner(System.in);
     private boolean useSimpleEnglish;
 
