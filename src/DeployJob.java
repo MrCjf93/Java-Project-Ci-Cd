@@ -1,49 +1,39 @@
 
 
-// Subclass that handles the Deployment also extends pipeline and implements reportable
 public class DeployJob extends PipelineWork implements Reportable {
+    private String targetEnvironment; // Fixed original typo here too!
 
-    // Stores the destination environment name for example ("Production" or "testing")
-    private String targetEnviroment;
-
-    // constructor to set up deployment job name , duration and target destination
-    public DeployJob(String jobName, int durationSeconds, String targetEnviroment) {
-
-       //calls the superclass pipelineWork constructor
+    public DeployJob(String jobName, int durationSeconds, String targetEnvironment) {
         super(jobName, durationSeconds);
-
-        //Error handling that doesn't allow the target environment string cant be null or whitespace
-        if (targetEnviroment == null  || targetEnviroment.trim().isEmpty()){
-    throw new IllegalArgumentException("Deployment target requires valid infrastructure tags.");
-
+        if (targetEnvironment == null  || targetEnvironment.trim().isEmpty()){
+            throw new IllegalArgumentException("Deployment target requires valid infrastructure tags.");
         }
-        this.targetEnviroment = targetEnviroment;
+        this.targetEnvironment = targetEnvironment;
     }
 
-    // Override the executeWork method to handle the deployment logic
     @Override
-    public void executeWork(){
-        // Message that says: We are uploading the code files to the target server
-        System.out.println("Initiating fleet transition: Provisioning application artifacts onto "
-                + targetEnviroment + " Hosts... ");
-        // changes the status of the job to Success
-        setStatus("Success");
+    public void executeWork() {
+        System.out.println("Initiating fleet transition: Provisioning application artifacts onto " + targetEnvironment + " Hosts... ");
 
+        try { Thread.sleep(getDurationSeconds() * 10L); } catch (InterruptedException ignored) {}
 
+        // Deployments have a tiny 5% chance to fail due to network drops
+        if (Math.random() < 0.05) {
+            setStatus("FAILED: Infrastructure Timeout");
+            System.out.println(" -> Deployment Failure: Target host connection lost!");
+        } else {
+            setStatus("SUCCESS");
+            System.out.println(" -> Deployment transition finalized safely.");
+        }
     }
-    //Overrides getDetails method to return a formatted info string about this deployment
-    @Override
-    public String getDetails(){
-        return "[Deployment Task] Identifier: " + getJobName() +
-                " || Topology Profile:  " + targetEnviroment + " || Target duration: "
-                + getDurationSeconds() + "s || Status : " + getStatus();
 
-    }
-    // override the generateReport method required by Reportable interface
     @Override
-    public void generateReport(){
-        // Print out a final summary showing which server group is currently active
-        System.out.println(" >>> Environment Profile: [Release Assset: "
-                + getJobName() + "] -> infrastructure path active on host pool " + targetEnviroment + ".");
+    public String getDetails() {
+        return "[Deployment Task] Identifier: " + getJobName() + " || Topology Profile:  " + targetEnvironment + " || Target duration: " + getDurationSeconds() + "s || Status : " + getStatus();
+    }
+
+    @Override
+    public void generateReport() {
+        System.out.println(" >>> Environment Profile: [Release Asset: " + getJobName() + "] -> infrastructure path configuration on " + targetEnvironment + " is [" + getStatus() + "]");
     }
 }

@@ -1,44 +1,39 @@
 
-// Subclass that handles the test part before deployment
-// extends pipelineWork but also implements reportable interface to be able to generate a report.
 public class TestJob extends PipelineWork implements Reportable {
-
-    // Stores the number of tests this job will run
     private int testCount;
 
-    // Constructor to initialize job name and duration and test count
     public TestJob(String jobName, int durationSeconds, int testCount) {
-
-       //calls the superclass pipelineWork constructor
         super(jobName, durationSeconds);
-
-        //Validation rule / error handling: Doesn't allow testCount to be 0 or below
         if (testCount < 0) {
             throw new IllegalArgumentException("Automated check count cannot be below zero");
-
-        } this.testCount = testCount;
-
+        }
+        this.testCount = testCount;
     }
-    // Overrides executeWork method from pipelineWork
+
     @Override
     public void executeWork() {
         System.out.println("Running Analysis: Checking codebase metrics against " + testCount + " discrete unit verifications...");
-        // Changes the job status to Success
-        setStatus("Success");
 
+        try { Thread.sleep(getDurationSeconds() * 10L); } catch (InterruptedException ignored) {}
 
+        // Tests have a 20% chance to fail if there are unit tests present
+        if (testCount > 0 && Math.random() < 0.20) {
+            setStatus("FAILED: Assertions Broken");
+            System.out.println(" -> Test Failure: Unit verification assertions failed!");
+        } else {
+            setStatus("SUCCESS");
+            System.out.println(" -> All tests passed successfully.");
+        }
     }
-    //Overrides getDetails method to return a formatted info string
+
     @Override
-    public String getDetails(){
-        return "[TESTING TASK] Identifier: " + getJobName() + " || Verified Scenarios: " + testCount +
-                "units | Target duration: " + getDurationSeconds() + "s || Status: " + getStatus();
+    public String getDetails() {
+        return "[TESTING TASK] Identifier: " + getJobName() + " || Verified Scenarios: " + testCount + " units | Target duration: " + getDurationSeconds() + "s || Status: " + getStatus();
     }
-    // Overrides generateReport method required by Reportable interface
+
     @Override
     public void generateReport() {
-        System.out.println(" >>> Compliance Feedback [Test asset: " + getJobName() + "] -> Passed " +
-                testCount + " Automated build checkpoints smoothly! ");
+        String outcome = getStatus().startsWith("FAILED") ? "CRITICAL OUTCOME: Failed checkpoints!" : "Passed " + testCount + " Automated build checkpoints smoothly!";
+        System.out.println(" >>> Compliance Feedback [Test asset: " + getJobName() + "] -> " + outcome);
     }
-
 }

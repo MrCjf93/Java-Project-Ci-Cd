@@ -1,39 +1,34 @@
 
-// Subclass that handles the build step in the pipeline
-public class BuildJob extends PipelineWork{
-
-    //Stores the version of the compiler for the build.
+public class BuildJob extends PipelineWork {
     private String compilerVersion;
 
-
-    // Constructor that initializes the BuildJob
     public BuildJob(String jobName, int durationSeconds, String compilerVersion) {
-
-        // calls the superclass PipelineWork constructor
         super(jobName, durationSeconds);
-
-        // Validation that prevents the program from creating a BuildJob without a valid compilerVersion
         if (compilerVersion == null || compilerVersion.trim().isEmpty()) {
             throw new IllegalArgumentException("compilerVersion cannot be null or empty");
         }
-
         this.compilerVersion = compilerVersion;
-
     }
-    // Overrides the abstract method from PipelineWork.
-    // Simulates the execution of the compilation stage of the pipeline.
+
     @Override
     public void executeWork() {
         System.out.println("Executing build: Compiling standard source components using " + compilerVersion + "...");
 
-        // Updates the job status using the setter method inherited from PipelineWork ( The superclass ).
-        setStatus("Successfully executed build: Compiling standard source components");
+        // Simulating delay based on duration (10ms per simulated second)
+        try { Thread.sleep(getDurationSeconds() * 10L); } catch (InterruptedException ignored) {}
 
+        // Builds have a 10% chance to fail due to a "syntax error"
+        if (Math.random() < 0.10) {
+            setStatus("FAILED: Compilation Error");
+            System.out.println(" -> Build Failure: Syntax errors caught during compilation!");
+        } else {
+            setStatus("SUCCESS");
+            System.out.println(" -> Build completed successfully.");
+        }
     }
-    // Constructs a formatted summary string that is specific to this BuildJob
-    // Combines subclass data the Compiler plus the superclass name , duration and status.
+
     @Override
-    public String getDetails(){
+    public String getDetails() {
         return "[Build-Task] Identifier: " + getJobName() + " Compiler Env: " + compilerVersion + " | Target Duration: " + getDurationSeconds() + "s | Status: " + getStatus();
     }
 }
