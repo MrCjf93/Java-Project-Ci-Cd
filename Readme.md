@@ -1,123 +1,84 @@
-CI/CD Pipeline Simulator
+# CI/CD Pipeline Simulator
 
-Author: Christoffer Frez
+**Author:** Christoffer Frez
 
-Project Idea
+---
 
-Console-based simulator of a CI/CD pipeline. It manages different types of pipeline jobs,   building, testing, and deploying software.
+## Project Idea
+A console-based simulator of a CI/CD pipeline. It manages different types of pipeline jobs responsible for building, testing, and deploying software.
 
-Superclass
+---
 
-Name: PipelineWork
+## Architecture & Component Breakdown
 
-Common fields:
+### Superclass
+* **Name:** `PipelineWork`
+* **Common Fields:**
+    * `String jobName` – The name of the job.
+    * `int durationSeconds` – How long the job takes to run.
+    * `String status` – The current status of the job.
+* **Common Methods:**
+    * `getJobName()` – Gets the name of the job.
+    * `getDurationSeconds()` – Gets the duration of the job.
+    * `getStatus()` – Gets the current status.
+    * `setStatus()` – Changes the status of the job.
+    * `executeWork()` – Abstract method because each type of job works differently.
+    * `getDetails()` – Abstract method that returns info about the job.
 
-String jobName – the name of the job.
+### Subclasses
 
-int durationSeconds – how long the job takes to run.
+#### 1. BuildJob
+* **Description:** Simulation of compiling the source code.
+* **Added Field:** `String compilerVersion` – Stores the version of the compiler being used.
+* **Overridden Methods:**
+    * `executeWork()` – Simulates compiling the source code.
+    * `getDetails()` – Shows info about the build.
 
-String status – the current status of the job.
+#### 2. TestJob
+* **Description:** Simulation of running automated tests on the code.
+* **Added Field:** `int testCount` – Stores the number of tests being run.
+* **Interface Implemented:** `Reportable` (allows it to create a status report).
+* **Overridden Methods:**
+    * `executeWork()` – Simulates running the tests.
+    * `getDetails()` – Shows information about the tests.
+    * `generateReport()` – Creates a report about the testing.
 
-Common methods:
+#### 3. DeployJob
+* **Description:** Simulation of deploying the finished software to a specific environment.
+* **Added Field:** `String targetEnvironment` – Stores where the software is being deployed (e.g., Production).
+* **Interface Implemented:** `Reportable` (allows it to create a status report).
+* **Overridden Methods:**
+    * `executeWork()` – Simulates the deployment.
+    * `getDetails()` – Shows information about the deployment.
+    * `generateReport()` – Creates a report about the deployment.
 
-getJobName() – gets the name of the job.
+---
 
-getDurationSeconds() – gets the duration of the job.
+### Interface
+* **Name:** `Reportable`
+* **Method(s):** `void generateReport()`
+* **Implemented By:** `TestJob`, `DeployJob`
+* **Purpose:** This interface is used so that both `TestJob` and `DeployJob` can create their own unique reports using the exact same contract method.
 
-getStatus() – gets the current status.
+---
 
-setStatus() – changes the status of the job.
+## System Features & Menu Entries
+The program features a centralized menu with options to manipulate and evaluate all pipeline jobs simultaneously:
 
-executeWork() – executes the job. abstract method because each type of job works differently.
+* **Add a Pipeline Work Unit:** Allows the user to choose and initialize a `BuildJob`, `TestJob`, or `DeployJob` and add it to the generic tracking collection.
+* **Remove a Work Unit:** Takes a job name string from the console, searches the collection, and drops the matching item.
+* **Filter Works by Duration:** Filters the list by a minimum duration input and displays all jobs matching or exceeding that target threshold.
+* **Run Compliance:** Loops through the collection and triggers `generateReport()` for only the jobs that implement the `Reportable` interface.
+* **View Fleet Analytics:** Calculates and displays cumulative process statistics, including total pipeline runtime and the statistical average duration of all nodes.
+* **Bonus (Language Interface Toggle):** Includes a toggle translation mechanism that allows users to seamlessly switch the interface text between complex Developer terminology and Simple English.
 
-getDetails() – returns info about the job. Also an abstract method.
+---
 
-Subclasses
-BuildJob
+## Error Scenarios & Safety Traps
+1. **Invalid Configuration Data:** If a user tries to instantiate a job with a blank name or a negative duration value, the constructors catch it instantly and throw an `IllegalArgumentException`.
+2. **Job Failure Fault Traps:** If a job encounters unexpected issues or runs into corrupted parameters during execution, the system flags the failure state and traps runtime loop crashes safely using robust error boundaries.
 
-BuildJob: Simulation of compiling the source code.
+---
 
-Also has an added field called compilerVersion, that stores the version of the compiler being used.
-
-Overridden methods:
-
-executeWork() – simulates compiling the source code.
-
-getDetails() – shows info about the build.
-
-TestJob
-
-TestJob simulation of running automated tests on the code.
-
-added field called testCount, stores the number of tests being run. That also implements the Reportable interface so that it can create a report.
-
-Overridden methods:
-
-executeWork() – simulates running the tests.
-
-getDetails() – shows information about the tests.
-
-generateReport() – creates a report about the testing.
-
-DeployJob
-
-DeployJob Simulation of deploying the finished software to a specific environment.
-
-Added field targetEnvironment, which stores where the software is being deployed, for example Production.
-
-Overridden methods:
-
-executeWork() – simulates the deployment.
-
-getDetails() – shows information about the deployment.
-
-generateReport() – creates a report about the deployment.
-
-Interface
-
-Name: Reportable
-
-Method(s):
-
-void generateReport()
-
-Implemented by:
-
-TestJob
-
-DeployJob
-
-The interface is used so TestJob and DeployJob can create their own reports using the same method.
-
-Menu
-
-The program has menu with different options that work with all of the pipeline jobs.
-
-Add a Pipeline Work Unit
-user can create a BuildJob, TestJob, or DeployJob and add it to the collection.
-
-Remove a Work Unit
-Enters the name of a job, and the program searches for it and removes it from the collection.
-
-Filter Works by Duration
-enter a minimum duration, and the program displays all jobs that have the same or longer duration.
-
-Run Compliance
-Runs through the collection and calls generateReport() for the jobs that implement the Reportable interface.
-
-View Fleet Analytics
-calculates and displays the total runtime and the average duration of all jobs in the collection.
-
-Error Scenarios
-1. Invalid / Wrong info when creating a job
-
-If the user tries to create a job with an empty name or a duration of 0 or less, the program should throw an IllegalArgumentException.
-
-2. A job fails during execution
-
-If the user tries to execute or evaluate a job that has failed or contains corrupted info the program should throw the custom checked exception JobFailedException.
-
-Bonus: Added a translation option so that the user can toggle between Dev terms and simple english
-Motivation
-
-Nothing for now. Will be added during this or next week.
+## Motivation
+The motivation behind this project was to design a clean, manageable way to simulate real-world DevOps tasks using object-oriented programming concepts in Java. In modern software engineering, automated pipelines are critical for shipping code quickly and safely, but the background processes can be hard to visualize. Building this simulator helped me practicalize core coding principles like polymorphism and abstract classes, while also exploring how a centralized controller interface handles different sub-task logic smoothly. Creating the dual-language menu toggle also highlights how important accessible user interface design is, even for backend console utilities.
