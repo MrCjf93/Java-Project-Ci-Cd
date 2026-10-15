@@ -45,7 +45,7 @@ public class PipelineManager {
                         System.out.println("Shutting down core processes, Session closed cleanly");
                         systemRunning = false;
                         break;
-                    case 8: // NEW option handler
+                    case 8:
                         displayExecutionHistoryLogs();
                         break;
                     default:
@@ -149,7 +149,7 @@ public class PipelineManager {
             if (job != null) {
                 job.executeWork(); // Processes task with realistic sleep delays and failure possibilities
                 jobRegistry.add(job);
-                // NEW: Permanently write down execution logs right away
+
                 executionHistoryLog.add("User Spawned Run -> Name: [" + job.getJobName() + "] | Status: " + job.getStatus());
             }
         } catch (IllegalArgumentException e) {
@@ -203,7 +203,7 @@ public class PipelineManager {
         System.out.println("Failed Pipeline Tasks currently in list: " + failedCount); // Added failure count metric
     }
 
-    // NEW: Method to read the history list logs aloud onto the terminal screen
+    
     private void displayExecutionHistoryLogs() {
         System.out.println("\n============= PERSISTENT HISTORICAL PIPELINE RUN LOGS =============");
         if (executionHistoryLog.isEmpty()) {
